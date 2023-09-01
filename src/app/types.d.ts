@@ -6,7 +6,7 @@ import {
     FormikState,
     FormikValues
 } from 'formik';
-import { ReactElement } from 'react';
+import { ReactElement, ReactNode } from 'react';
 
 export {};
 
@@ -15,6 +15,16 @@ declare global {
      * Now declare things that go in the global namespace,
      * or augment existing declarations in the global namespace.
      */
+    type DimensionProps = {
+        width: number;
+        height: number;
+    }
+
+    type CropProps = {
+        width: number;
+        height: number;
+        photo: string | undefined;
+    }
 
     type UploadInfo = {
         id: string;
