@@ -33,7 +33,7 @@ stages:
     - task: AzureKeyVault@2
       inputs:
         azureSubscription: 'Azure subscription 1 (4adb883b-478f-4cd4-bc5e-0196888d7574)'
-        KeyVaultName: 'sitewise'
+        KeyVaultName: 'sitewise2'
         SecretsFilter: '*'
         RunAsPreJob: true
     - task: NodeTool@0
