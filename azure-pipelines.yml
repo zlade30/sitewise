@@ -1,4 +1,10 @@
 # Node.js Express Web App to Linux on Azure
+- task: AzureKeyVault@2
+  inputs:
+    azureSubscription: 'Azure subscription 1 (4adb883b-478f-4cd4-bc5e-0196888d7574)'
+    KeyVaultName: 'sitewise'
+    SecretsFilter: '*'
+    RunAsPreJob: true
 # Build a Node.js Express app and deploy it to Azure as a Linux web app.
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
