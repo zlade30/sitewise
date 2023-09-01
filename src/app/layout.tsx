@@ -1,6 +1,7 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { montserrat } from './fonts';
+import { ReduxProvider } from '@/redux/provider';
 
 export const metadata: Metadata = {
     title: 'Sitewise',
@@ -41,18 +42,12 @@ export const metadata: Metadata = {
     ]
 };
 
-export default function RootLayout({
-    auth,
-    dashboard
-}: {
-    auth: React.ReactNode;
-    dashboard: React.ReactNode;
-}) {
+export default function RootLayout({ auth, dashboard }: { auth: React.ReactNode; dashboard: React.ReactNode }) {
     const isAuth = false;
     return (
         <html lang="en">
             <body className={montserrat.className}>
-                {isAuth ? auth : dashboard}
+                <ReduxProvider>{isAuth ? auth : dashboard}</ReduxProvider>
             </body>
         </html>
     );

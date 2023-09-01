@@ -23,6 +23,11 @@ const draftsTab = {
     TAKE_OFFS: 'take-offs'
 };
 
+const ORIENTATION = {
+    landscape: 'LANDSCAPE',
+    portrait: 'PORTRAIT'
+}
+
 const PROJECT_PAGE_SLUG = -1;
 const PROJECT_DETAILS_PAGE_SLUG = 0;
 const PHOTO_PAGE_SLUG = 1;
@@ -45,5 +50,6 @@ export {
     PHOTO_DETAILS_PAGE_SLUG,
     PHOTO_PAGE_SLUG,
     PHOTO_DETAILS_PAGE,
-    PHOTO_PAGE
+    PHOTO_PAGE,
+    ORIENTATION
 };

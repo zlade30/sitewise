@@ -2,13 +2,13 @@
 
 import { Button } from '@/components/shared/buttons';
 import { useParams, useRouter } from 'next/navigation';
-import { ChevronIcon, InfoIcon, ListIcon, TableIcon } from '@/public/icons';
 import { PROJECT_DETAILS_PAGE_SLUG } from '@/utils/constants';
+import { ChevronIcon, InfoIcon, ListIcon, TableIcon } from '@/public/icons';
 
 const ProjectDetailsHeader = () => {
     const router = useRouter();
-    const { projects = [] } = useParams();
-    const projectId = projects[PROJECT_DETAILS_PAGE_SLUG];
+    const { slug = [] } = useParams();
+    const projectId = slug[PROJECT_DETAILS_PAGE_SLUG];
 
     return (
         <div className="w-full flex flex-col gap-[24px] px-[26px]">

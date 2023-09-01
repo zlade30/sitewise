@@ -98,3 +98,4 @@ export { default as PhotoUploadIcon } from './photo-upload.svg';
 export { default as UploadCloudIcon } from './upload-cloud.svg';
 export { default as CancelIcon } from './cancel.svg';
 export { default as WarningOutlineIcon } from './warning-outline.svg';
+export { default as CropIcon } from './crop-icon.svg';

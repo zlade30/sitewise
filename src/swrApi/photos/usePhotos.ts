@@ -1,8 +1,19 @@
 import useSWR from 'swr';
 import { photosApi } from '.';
+import { usePathname } from 'next/navigation';
 
 const usePhotos = () => {
-    const { data = [], ...rest } = useSWR('', photosApi.getPhotos);
+    const path = usePathname();
+
+    const { data = [], ...rest } = useSWR(
+        path.includes('photos') ? `/photos` : null,
+        photosApi.getPhotos,
+        {
+            revalidateIfStale: false,
+            revalidateOnFocus: false,
+            revalidateOnReconnect: false
+        }
+    );
 
     return {
         photos: data as Photos[],

@@ -1,32 +1,38 @@
 'use client';
 
-import { useParams, usePathname } from 'next/navigation';
-import { avatarImg } from '@/public/images';
-import { getCurrentPage } from '@/utils/helpers';
-import { PROJECT_DETAILS_PAGE, PROJECT_PAGE } from '@/utils/constants';
-import { useProjects } from '@/swrApi/projects';
 import Image from 'next/image';
-import { ProfilePopup } from '@/components/features/projects';
 import { useState } from 'react';
-import { twMerge } from 'tailwind-merge';
+import { avatarImg } from '@/public/images';
+import { useProjects } from '@/swrApi/projects';
+import { getCurrentPage } from '@/utils/helpers';
+import { useParams, usePathname } from 'next/navigation';
+import { PHOTO_PAGE, PROJECT_DETAILS_PAGE, PROJECT_DETAILS_PAGE_SLUG, PROJECT_PAGE } from '@/utils/constants';
+import { ProfilePopup, ProjectDetailsHeader, ProjectListHeader } from '@/components/features/projects';
+import { PhotosHeader } from '@/components/features/photos';
 
 const Header = () => {
-    const { projects = [] } = useParams();
     const path = usePathname();
-    const currentPage = getCurrentPage(path, projects);
-    const { projects: list = [] } = useProjects();
-    const projectDetails = list[0];
+    const { slug = [] } = useParams();
+    const { projects = [] } = useProjects();
+    const currentPage = getCurrentPage(path, slug);
     const [showProfilePopup, setShowProfilePopup] = useState(false);
 
+    const projectId = slug[PROJECT_DETAILS_PAGE_SLUG];
+    const projectDetails = projects.find((item) => item.id === projectId);
+    const isPhotoPage = path.includes('photos');
     const isProjectPage = currentPage === PROJECT_PAGE;
     const isProjectDetailsPage = currentPage === PROJECT_DETAILS_PAGE;
 
-    console.log(currentPage);
+    const handleHeader = () => {
+        if (isPhotoPage) return <PhotosHeader />;
+        if (isProjectPage) return <ProjectListHeader />;
+        if (isProjectDetailsPage) return <ProjectDetailsHeader />;
+    };
 
     return (
-        <header className="w-full p-[26px]">
-            <section className="w-full flex items-center justify-between">
-                {isProjectDetailsPage && (
+        <header className="w-full">
+            <section className="w-full flex items-center justify-between p-[26px]">
+                {!isProjectPage && (
                     <div className="w-full flex items-center text-[14px] gap-[12px]">
                         <div className="flex items-center gap-[8px] text-[#636366]">
                             <p className="font-medium">ID:</p>
@@ -49,11 +55,12 @@ const Header = () => {
                         </div>
                     </div>
                 )}
-                <div className={`${isProjectPage ? 'justify-end' : ''} w-[100px] flex items-center justify-end`}>
+                <div className={`${isProjectPage ? 'w-full' : 'justify-end'} flex items-center justify-end`}>
                     <Image onClick={() => setShowProfilePopup(!showProfilePopup)} className="cursor-pointer" src={avatarImg} alt="avatar" />
                     <ProfilePopup open={showProfilePopup} onClose={() => setShowProfilePopup(false)} />
                 </div>
             </section>
+            {handleHeader()}
         </header>
     );
 };

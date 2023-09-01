@@ -8,7 +8,7 @@ const api = axios.create({
 const endpoint = '/photos';
 
 const getPhotos = async (query: string) => {
-    const response = await api.get(`${endpoint}${query}`);
+    const response = await api.get(query);
     return response.data;
 };
 

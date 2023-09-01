@@ -21,15 +21,17 @@ import { InputBox } from '@/components/shared/textfields';
 import { appointmentFormatDate, formatDate } from '@/utils/helpers';
 import { useProjects } from '@/swrApi/projects';
 import { PROJECT_DETAILS_PAGE_SLUG } from '@/utils/constants';
+import { FallbackSpinner } from '@/components/shared/fallbacks';
 
 const ProjectDetails = () => {
-    const { projects = [] } = useParams();
-    const { projects: list = [] } = useProjects();
-    const projectId = projects[PROJECT_DETAILS_PAGE_SLUG];
-    const projectDetails = list.find((item) => item.id === projectId);
+    const { slug = [] } = useParams();
+    const { projects = [], isLoading } = useProjects();
+    const projectId = slug[PROJECT_DETAILS_PAGE_SLUG];
+    const projectDetails = projects.find((item) => item.id === projectId);
 
+    if (isLoading) return <FallbackSpinner />;
     return (
-        <div className="w-full h-full flex flex-col items-center gap-[12px] overflow-y-auto">
+        <div className="w-full h-full flex flex-col items-center gap-[12px] overflow-y-auto p-[26px]">
             <section className="w-full flex flex-col gap-[12px]">
                 <h3 className="text-[22px] font-bold">Project Summary</h3>
                 <Divider />
