@@ -1,3 +1,5 @@
+'use client';
+
 import useSWR from 'swr';
 import { photosApi } from '.';
 import { usePathname } from 'next/navigation';

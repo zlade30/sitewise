@@ -1,28 +1,35 @@
 import { twMerge } from 'tailwind-merge';
 import { variants } from '@/utils/constants';
-import { ChevronIcon } from '@/public/icons';
-import { InputHTMLAttributes, ReactElement, useEffect, useState } from 'react';
+import { generateRandomString } from '@/utils/helpers';
+import { ChevronIcon, ChevronUpdownIcon } from '@/public/icons';
+import { InputHTMLAttributes, useEffect, useState } from 'react';
 
-const SelectForm = ({
-    data,
+const Select = ({
     label,
-    formik,
     variant,
+    options,
     required,
     className,
+    optionValue,
     placeholder,
+    valueHasIcon,
+    isDropDownIconRight,
+    isIconPrimary = true,
     ...props
 }: {
-    formik: Formik;
     label?: string;
     className?: string;
     required?: boolean;
     placeholder?: string;
-    data: { value: string; payload?: Object; icon?: ReactElement }[];
+    valueHasIcon?: boolean;
+    options: OptionsValue[];
+    isIconPrimary?: boolean;
+    optionValue: OptionsValue;
+    isDropDownIconRight?: boolean;
     variant: 'default' | 'primary' | 'secondary';
 } & InputHTMLAttributes<HTMLDivElement>) => {
-    const isError = Boolean(formik.touched[props.name!] && formik.errors[props.name!]);
     const [open, setOpen] = useState(false);
+    const [payload, setPayload] = useState<OptionsValue>(optionValue);
 
     const handleVariant = () => {
         if (variant === variants.SECONDARY) {
@@ -34,11 +41,8 @@ const SelectForm = ({
         }
     };
 
-    const onSelectItem = (item: { value: string; payload?: Object }) => {
-        formik.setFieldValue(props.name!, {
-            value: item.value,
-            payload: item.payload
-        });
+    const onSelectItem = (item: OptionsValue) => {
+        setPayload(item);
         setOpen(false);
     };
 
@@ -52,11 +56,6 @@ const SelectForm = ({
         document.addEventListener('click', onCloseAnywhere);
     };
 
-    const renderError = () => {
-        const error: any = formik.errors[props.name!];
-        return error['value'];
-    };
-
     useEffect(() => {
         document.addEventListener('click', onCloseAnywhere);
         return () => {
@@ -65,7 +64,7 @@ const SelectForm = ({
     }, [open]);
 
     return (
-        <div>
+        <div className="w-full">
             {label && (
                 <div className="flex items-center">
                     <p className="text-[16px] font-medium mb-1">{label}</p>
@@ -83,29 +82,39 @@ const SelectForm = ({
                 onMouseLeave={() => onActivateClose}
                 {...props}
             >
-                {formik.values[props.name!]['value'] || <p className="text-gray-400">{placeholder}</p>}
-                <ChevronIcon className={`${open ? 'scale-x-[1]' : 'scale-x-[-1]'} rotate-90`} />
+                <div className="flex items-center gap-[10px]">
+                    {valueHasIcon && payload.icon}
+                    {payload.label || <p className="text-gray-400">{placeholder}</p>}
+                </div>
+                {isIconPrimary ? (
+                    <ChevronIcon className={`${open ? 'scale-x-[1]' : 'scale-x-[-1]'} rotate-90`} />
+                ) : (
+                    <ChevronUpdownIcon className="text-[#868E96] w-[18px] h-[18px]" />
+                )}
+
                 {open && (
-                    <div className="absolute w-full left-0 top-0 mt-[45px]">
-                        {data.map((item) => (
+                    <div className="absolute w-full left-0 top-0 mt-[45px] dropdown-shadow border border-[#E9ECEF]">
+                        {options.map((item) => (
                             <div
-                                key={item.value}
+                                key={generateRandomString(10)}
                                 className={`
                                     w-full cursor-pointer flex items-center justify-between whitespace-nowrap
                                     text-[14px] hover:bg-hover-secondary px-[12px] py-[10px] bg-white
                                 `}
                                 onClick={() => onSelectItem(item)}
                             >
-                                {item.value}
-                                {item.icon}
+                                <div className="flex items-center gap-[10px]">
+                                    {!isDropDownIconRight && item.icon}
+                                    {item.label}
+                                </div>
+                                {isDropDownIconRight && item.icon}
                             </div>
                         ))}
                     </div>
                 )}
             </div>
-            {isError && <p className="text-[14px] text-error whitespace-nowrap">{renderError()}</p>}
         </div>
     );
 };
 
-export default SelectForm;
+export default Select;

@@ -77,3 +77,8 @@ export const getImageDimensions = (url: string | undefined): Promise<{ width: nu
         img.src = url || '';
     });
 }
+
+export const generateRandomString = (length: number) => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    return Array.from({ length }, () => characters[Math.floor(Math.random() * characters.length)]).join('');
+}

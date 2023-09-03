@@ -15,6 +15,13 @@ declare global {
      * Now declare things that go in the global namespace,
      * or augment existing declarations in the global namespace.
      */
+    type OptionsValue = {
+        label: string;
+        value: string;
+        payload?: Object;
+        icon?: ReactElement;
+    };
+
     type DimensionProps = {
         width: number;
         height: number;
@@ -23,7 +30,9 @@ declare global {
     type CropProps = {
         width: number;
         height: number;
-        photo: string | undefined;
+        src: string | undefined;
+        handleCancel: () => void;
+        handleSave: () => void;
     }
 
     type UploadInfo = {
@@ -47,6 +56,7 @@ declare global {
         active?: boolean;
         fileName: string;
         tagCustom: string;
+        basicTags: string[];
         customTags: string[];
         isNeedReview: boolean;
         suite: 'interior' | 'exterior';

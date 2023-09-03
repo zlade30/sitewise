@@ -19,9 +19,16 @@ const uploadPhoto = async ({
     config: AxiosRequestConfig
 }) => {
     const response = await api.post(endpoint, {
+        tags: [],
         link: url,
         tagCustom: '',
         customTags: [],
+        basicTags: [
+            'Date and Time',
+            'Needs Review',
+            'Showcase Photo',
+            'Uploaded Photos'
+        ],
         date: new Date().getTime(),
         notes: faker.lorem.sentence(),
         id: faker.string.uuid().slice(0, 12),
@@ -32,12 +39,6 @@ const uploadPhoto = async ({
         suite: faker.helpers.arrayElement(['interior', 'exterior']),
         status: faker.helpers.arrayElement(['showcase', 'uploaded']),
         type: faker.helpers.arrayElement(['electric-boxes', 'deleted']),
-        tags: [
-            'Date and Time',
-            'Needs Review',
-            'Showcase Photo',
-            'Uploaded Photos'
-        ],
         location: `${faker.location.state()} ${faker.location.streetAddress()} ${faker.location.zipCode()}`
     }, config);
     return response.data;

@@ -1,13 +1,21 @@
 import { twMerge } from 'tailwind-merge';
 import { variants } from '@/utils/constants';
 import { ChevronIcon } from '@/public/icons';
+import { generateRandomString } from '@/utils/helpers';
 import { InputHTMLAttributes, ReactElement, useEffect, useState } from 'react';
 
+type OptionsValue = {
+    label: string;
+    value: string;
+    payload?: Object;
+    icon?: ReactElement;
+};
+
 const SelectForm = ({
-    data,
     label,
     formik,
     variant,
+    options,
     required,
     className,
     placeholder,
@@ -18,7 +26,7 @@ const SelectForm = ({
     className?: string;
     required?: boolean;
     placeholder?: string;
-    data: { value: string; payload?: Object; icon?: ReactElement }[];
+    options: OptionsValue[];
     variant: 'default' | 'primary' | 'secondary';
 } & InputHTMLAttributes<HTMLDivElement>) => {
     const isError = Boolean(formik.touched[props.name!] && formik.errors[props.name!]);
@@ -34,11 +42,8 @@ const SelectForm = ({
         }
     };
 
-    const onSelectItem = (item: { value: string; payload?: Object }) => {
-        formik.setFieldValue(props.name!, {
-            value: item.value,
-            payload: item.payload
-        });
+    const onSelectItem = (item: OptionsValue) => {
+        formik.setFieldValue(props.name!, item);
         setOpen(false);
     };
 
@@ -86,10 +91,10 @@ const SelectForm = ({
                 {formik.values[props.name!]['value'] || <p className="text-gray-400">{placeholder}</p>}
                 <ChevronIcon className={`${open ? 'scale-x-[1]' : 'scale-x-[-1]'} rotate-90`} />
                 {open && (
-                    <div className="absolute w-full left-0 top-0 mt-[45px]">
-                        {data.map((item) => (
+                    <div className="absolute w-full left-0 top-0 mt-[45px] border border-[#E9ECEF]">
+                        {options.map((item) => (
                             <div
-                                key={item.value}
+                                key={generateRandomString(10)}
                                 className={`
                                     w-full cursor-pointer flex items-center justify-between whitespace-nowrap
                                     text-[14px] hover:bg-hover-secondary px-[12px] py-[10px] bg-white

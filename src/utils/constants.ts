@@ -28,6 +28,8 @@ const ORIENTATION = {
     portrait: 'PORTRAIT'
 }
 
+const ZOOM_MAX_VALUE = 5;
+
 const PROJECT_PAGE_SLUG = -1;
 const PROJECT_DETAILS_PAGE_SLUG = 0;
 const PHOTO_PAGE_SLUG = 1;
@@ -51,5 +53,6 @@ export {
     PHOTO_PAGE_SLUG,
     PHOTO_DETAILS_PAGE,
     PHOTO_PAGE,
-    ORIENTATION
+    ORIENTATION,
+    ZOOM_MAX_VALUE
 };
